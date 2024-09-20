@@ -25,7 +25,8 @@ jobs:
 
             - name: Zip the out folder
               run: |
-                  zip -r out.zip out
+                  cd out
+                  zip -r out.zip .
 
             - name: Create Release
               id: create_release

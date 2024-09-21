@@ -39,7 +39,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  name: Release ${{ steps.get_tag.outputs.tag }}
+                  name: ${{ steps.get_tag.outputs.tag }}
                   draft: false
                   prerelease: false
                   artifacts: "public.zip"

@@ -27,8 +27,7 @@ jobs:
 
             - name: Zip the out folder
               run: |
-                  cd out
-                  zip -r out.zip .
+                  cd out && zip -r ../public.zip .
 
             - name: Create Release
               id: create_release
@@ -39,4 +38,4 @@ jobs:
                   name: Release ${{ github.ref }}
                   draft: false
                   prerelease: false
-                  artifacts: "out.zip"
+                  artifacts: "public.zip"

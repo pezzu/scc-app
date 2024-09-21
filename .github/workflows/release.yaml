@@ -3,7 +3,7 @@ name: release
 on:
     push:
         tags:
-            - "*"
+            - "v*.*.*"
 
 jobs:
     release:
@@ -29,12 +29,17 @@ jobs:
               run: |
                   cd out && zip -r ../public.zip .
 
+            - name: Get the tag name
+              id: get_tag
+              run: echo tag=${GITHUB_REF#refs/tags/} >> $GITHUB_OUTPUT
+
             - name: Create Release
               id: create_release
               uses: ncipollo/release-action@v1
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
+                  tag: ${{ steps.get_tag.outputs.tag }}
                   name: Release ${{ github.ref }}
                   draft: false
                   prerelease: false

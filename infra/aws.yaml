@@ -3,4 +3,8 @@ Resources:
     S3Bucket:
         Type: "AWS::S3::Bucket"
         Properties:
-            BucketName: !Sub "${AWS::StackName}-bucket"
+            BucketName: !Sub "scc-app-${AWS::Region}-${AWS::AccountId}"
+Outputs:
+    BucketName:
+        Description: The name of the S3 bucket
+        Value: !Ref S3Bucket

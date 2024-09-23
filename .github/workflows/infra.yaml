@@ -20,5 +20,5 @@ jobs:
               run: |
                   aws cloudformation deploy \
                     --template-file infra/aws.yaml \
-                    --stack-name my-cloudformation-stack \
+                    --stack-name scc-app-cloudformation-stack \
                     --capabilities CAPABILITY_NAMED_IAM

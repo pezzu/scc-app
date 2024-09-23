@@ -1,4 +1,4 @@
-name: Infrastructure
+name: Deploy
 
 on:
     workflow_dispatch:
@@ -19,6 +19,17 @@ jobs:
             - name: Deploy CloudFormation stack
               run: |
                   aws cloudformation deploy \
-                    --template-file infra/aws.yaml \
+                    --template-file deploy/aws.yaml \
                     --stack-name scc-app-cloudformation-stack \
                     --capabilities CAPABILITY_NAMED_IAM
+
+            - name: Set up Python 3.
+              uses: actions/setup-python@v4
+              with:
+                  python-version: "3.x"
+
+            - name: Install test dependencies
+              run: pip3 install ansible-core boto3 botocore
+
+            - name: Run Ansible playbook
+              run: ansible-playbook deploy/deploy.yaml

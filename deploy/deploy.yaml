@@ -1,0 +1,29 @@
+- name: Deploy application
+  hosts: localhost
+  gather_facts: false
+  vars:
+      temp: lookup('env', 'runner.temp')
+  tasks:
+      - name: Download archive
+        ansible.builtin.get_url:
+            url: https://github.com/pezzu/scc-app/releases/download/v0.1.8/public.zip
+            dest: "{{ temp }}"
+            mode: "u=rw,g=r,o=r"
+        register: downloaded
+
+      - name: Unpack archive
+        ansible.builtin.unarchive:
+            src: "{{ downloaded.dest }}"
+            dest: "{{ temp }}"
+            list_files: true
+            remote_src: true
+        register: extracted
+
+      - name: Upload files
+        amazon.aws.aws_s3:
+            bucket: "scc-app-us-east-1-"
+            object: "{{ item }}"
+            src: "{{ extracted.dest }}/{{ item }}"
+            mode: put
+        loop: "{{ extracted.files }}"
+        register: upload_results

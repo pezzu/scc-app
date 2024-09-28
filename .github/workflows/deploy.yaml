@@ -33,3 +33,5 @@ jobs:
 
             - name: Run Ansible playbook
               run: ansible-playbook deploy/deploy.yaml
+              env:
+                  RUNNER_TEMP: ${{ runner.temp }}

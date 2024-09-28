@@ -2,7 +2,7 @@
   hosts: localhost
   gather_facts: false
   vars:
-      temp: ${{ runner.temp }}
+      temp: lookup('env', 'RUNNER_TEMP')
   tasks:
       - name: Download archive
         ansible.builtin.get_url:

@@ -19,11 +19,23 @@
             remote_src: true
         register: extracted
 
+      - name: Get stats
+        ansible.builtin.stat:
+            path: "{{ extracted.dest }}/{{ item }}"
+        loop: "{{ extracted.files }}"
+        register: files_stats
+
+      - name: Filter directories
+        ansible.builtin.set_fact:
+            files_only: "{{ files_only | default([]) + [item.item] }}"
+        loop: "{{ files_stats.results }}"
+        when: item.stat.isreg
+
       - name: Upload files
         amazon.aws.aws_s3:
             bucket: "scc-app-us-east-1-127141178998"
             object: "{{ item }}"
             src: "{{ extracted.dest }}/{{ item }}"
             mode: put
-        loop: "{{ extracted.files }}"
+        loop: "{{ files_only }}"
         register: upload_results

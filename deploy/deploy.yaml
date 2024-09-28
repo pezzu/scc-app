@@ -21,7 +21,7 @@
 
       - name: Upload files
         amazon.aws.aws_s3:
-            bucket: "scc-app-us-east-1-"
+            bucket: "scc-app-us-east-1-127141178998"
             object: "{{ item }}"
             src: "{{ extracted.dest }}/{{ item }}"
             mode: put

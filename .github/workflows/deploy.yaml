@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    infrastructure:
+    deploy:
         runs-on: ubuntu-latest
 
         env:
@@ -24,12 +24,12 @@ jobs:
                     --capabilities CAPABILITY_NAMED_IAM
 
             - name: Set up Python 3.
-              uses: actions/setup-python@v4
+              uses: actions/setup-python@v5
               with:
                   python-version: "3.x"
 
-            - name: Install test dependencies
-              run: pip3 install ansible-core boto3 botocore
+            - name: Install ansible dependencies
+              run: pip3 install ansible boto3 botocore
 
             - name: Run Ansible playbook
               run: ansible-playbook deploy/deploy.yaml

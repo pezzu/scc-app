@@ -13,4 +13,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Destroy Infrastructure
-              run: aws cloudformation delete-stack --stack-name scc-app-cloudformation-stack
+              run: |
+                  aws s3 rm s3://scc-app-us-east-1-127141178998 --recursive
+                  aws cloudformation delete-stack --stack-name scc-app-cloudformation-stack

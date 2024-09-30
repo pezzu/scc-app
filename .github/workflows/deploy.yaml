@@ -2,6 +2,11 @@ name: Deploy
 
 on:
     workflow_dispatch:
+        inputs:
+            environment:
+                description: "Environment to deploy to"
+                required: true
+                default: "QA92_05"
 
 jobs:
     deploy:
@@ -20,7 +25,9 @@ jobs:
               run: |
                   aws cloudformation deploy \
                     --template-file deploy/aws.yaml \
-                    --stack-name scc-app-cloudformation-stack \
+                    --stack-name scc-app-cloudformation-stack-${{ github.event.inputs.environment }} \
+                    --parameter-overrides \
+                        Environment=${{ github.event.inputs.environment }} \
                     --capabilities CAPABILITY_NAMED_IAM
 
             - name: Set up Python 3.
@@ -32,6 +39,6 @@ jobs:
               run: pip3 install ansible boto3 botocore
 
             - name: Run Ansible playbook
-              run: ansible-playbook deploy/deploy.yaml
+              run: ansible-playbook deploy/deploy.yaml --extra-vars "environment=${{ github.event.inputs.environment }}"
               env:
                   RUNNER_TEMP: ${{ runner.temp }}

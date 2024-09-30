@@ -4,6 +4,9 @@
   vars:
       temp: "{{ lookup('env', 'RUNNER_TEMP') }}"
   tasks:
+      - debug:
+            msg: "Installing on ${{ environment }}"
+
       - name: Download archive
         ansible.builtin.get_url:
             url: https://github.com/pezzu/scc-app/releases/download/v0.1.8/public.zip

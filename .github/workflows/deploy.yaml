@@ -21,13 +21,17 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v4
 
+            - name: lowercase Environment
+              run: echo "environment=${{ github.event.inputs.environment }} | tr '[:upper:]' '[:lower:]'" >> "${GITHUB_ENV}"
+
             - name: Deploy CloudFormation stack
               run: |
+
                   aws cloudformation deploy \
                     --template-file deploy/aws.yaml \
-                    --stack-name scc-app-cloudformation-stack-${{ github.event.inputs.environment.lowercase }} \
+                    --stack-name scc-app-cloudformation-stack-${environment} \
                     --parameter-overrides \
-                        Environment=${{ github.event.inputs.environment.lowercase }} \
+                        Environment=$environment \
                     --capabilities CAPABILITY_NAMED_IAM
 
             - name: Set up Python 3.
@@ -41,7 +45,7 @@ jobs:
             - name: Run Ansible playbook
               run: |
                   version=`cat environments/${{ github.event.inputs.environment }}.json | jq -r .configuration.app`
-                  ansible-playbook deploy/deploy.yaml --extra-vars "version=$version environment=${{ github.event.inputs.environment.lowercase }}"
+                  ansible-playbook deploy/deploy.yaml --extra-vars "version=$version environment=$environment"
 
               env:
                   RUNNER_TEMP: ${{ runner.temp }}

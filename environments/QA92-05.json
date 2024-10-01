@@ -1,5 +1,5 @@
 {
-    "name": "QA92_05",
+    "name": "QA92-05",
     "description": "Lab5.0 internal QA environment",
     "configuration": {
         "app": "v0.1.8"

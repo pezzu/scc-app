@@ -22,7 +22,7 @@ jobs:
               uses: actions/checkout@v4
 
             - name: lowercase Environment
-              run: echo "environment=${{ github.event.inputs.environment }} | tr '[:upper:]' '[:lower:]'" >> "${GITHUB_ENV}"
+              run: echo "environment=${{ github.event.inputs.environment }}" | tr '[:upper:]' '[:lower:]' >> "${GITHUB_ENV}"
 
             - name: Deploy CloudFormation stack
               run: |

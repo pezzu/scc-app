@@ -5,7 +5,7 @@
       temp: "{{ lookup('env', 'RUNNER_TEMP') }}"
   tasks:
       - debug:
-            msg: "Installing version {{ version }} on ${{ environment }}"
+            msg: "Installing version {{ version }} on {{ environment }}"
 
       - name: Download archive
         ansible.builtin.get_url:

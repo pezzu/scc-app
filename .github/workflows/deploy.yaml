@@ -36,9 +36,12 @@ jobs:
                   python-version: "3.x"
 
             - name: Install ansible dependencies
-              run: pip3 install ansible boto3 botocore
+              run: pip3 install ansible boto3 botocore jq
 
             - name: Run Ansible playbook
-              run: ansible-playbook deploy/deploy.yaml --extra-vars "environment=${{ github.event.inputs.environment }}"
+              run: |
+                  version=`cat environments/${{ github.event.inputs.environment }}.json | jq -r .configuration.app`
+                  ansible-playbook deploy/deploy.yaml --extra-vars "version=$version"
+
               env:
                   RUNNER_TEMP: ${{ runner.temp }}

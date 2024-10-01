@@ -1,9 +1,15 @@
 AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+    Environment:
+        Description: Environment ID
+        Type: String
+
 Resources:
     S3Bucket:
         Type: "AWS::S3::Bucket"
         Properties:
-            BucketName: !Sub "scc-app-${AWS::Region}-${AWS::AccountId}"
+            BucketName: !Sub "scc-app-${AWS::Region}-${AWS::AccountId}-${Environment}"
             WebsiteConfiguration:
                 IndexDocument: index.html
             PublicAccessBlockConfiguration:

@@ -9,7 +9,7 @@
 
       - name: Download archive
         ansible.builtin.get_url:
-            url: https://github.com/pezzu/scc-app/releases/download/v0.1.8/public.zip
+            url: "https://github.com/pezzu/scc-app/releases/download/{{ version }}/public.zip"
             dest: "{{ temp }}"
             mode: "u=rw,g=r,o=r"
         register: downloaded

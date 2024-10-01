@@ -5,7 +5,7 @@
       temp: "{{ lookup('env', 'RUNNER_TEMP') }}"
   tasks:
       - debug:
-            msg: "Installing version {{ version }} on {{ environment }}"
+            msg: "Installing version {{ version }} on {{ enviro_name }}"
 
       - name: Download archive
         ansible.builtin.get_url:
@@ -36,7 +36,7 @@
 
       - name: Upload files
         amazon.aws.aws_s3:
-            bucket: "scc-app-us-east-1-127141178998-{{environment}}"
+            bucket: "scc-app-us-east-1-127141178998-{{enviro_name}}"
             object: "{{ item }}"
             src: "{{ extracted.dest }}/{{ item }}"
             mode: put

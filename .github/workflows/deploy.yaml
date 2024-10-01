@@ -45,7 +45,7 @@ jobs:
             - name: Run Ansible playbook
               run: |
                   version=`cat environments/${{ github.event.inputs.environment }}.json | jq -r .configuration.app`
-                  ansible-playbook deploy/deploy.yaml --extra-vars "version=$version environment=$environment"
+                  ansible-playbook deploy/deploy.yaml --extra-vars "version=$version enviro_name=$environment"
 
               env:
                   RUNNER_TEMP: ${{ runner.temp }}

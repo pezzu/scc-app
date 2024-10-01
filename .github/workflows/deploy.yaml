@@ -25,9 +25,9 @@ jobs:
               run: |
                   aws cloudformation deploy \
                     --template-file deploy/aws.yaml \
-                    --stack-name scc-app-cloudformation-stack-${{ github.event.inputs.environment }} \
+                    --stack-name scc-app-cloudformation-stack-${{ github.event.inputs.environment.lowercase }} \
                     --parameter-overrides \
-                        Environment=${{ github.event.inputs.environment }} \
+                        Environment=${{ github.event.inputs.environment.lowercase }} \
                     --capabilities CAPABILITY_NAMED_IAM
 
             - name: Set up Python 3.
@@ -41,7 +41,7 @@ jobs:
             - name: Run Ansible playbook
               run: |
                   version=`cat environments/${{ github.event.inputs.environment }}.json | jq -r .configuration.app`
-                  ansible-playbook deploy/deploy.yaml --extra-vars "version=$version"
+                  ansible-playbook deploy/deploy.yaml --extra-vars "version=$version environment=${{ github.event.inputs.environment.lowercase }}"
 
               env:
                   RUNNER_TEMP: ${{ runner.temp }}

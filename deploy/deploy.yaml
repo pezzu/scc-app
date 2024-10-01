@@ -5,11 +5,11 @@
       temp: "{{ lookup('env', 'RUNNER_TEMP') }}"
   tasks:
       - debug:
-            msg: "Installing on ${{ environment }}"
+            msg: "Installing version {{ version }} on ${{ environment }}"
 
       - name: Download archive
         ansible.builtin.get_url:
-            url: "https://github.com/pezzu/scc-app/releases/download/{{ version }}/public.zip"
+            url: "https://github.com/pezzu/scc-app/releases/download/{{version}}/public.zip"
             dest: "{{ temp }}"
             mode: "u=rw,g=r,o=r"
         register: downloaded
@@ -36,7 +36,7 @@
 
       - name: Upload files
         amazon.aws.aws_s3:
-            bucket: "scc-app-us-east-1-127141178998"
+            bucket: "scc-app-us-east-1-127141178998-{{environment}}"
             object: "{{ item }}"
             src: "{{ extracted.dest }}/{{ item }}"
             mode: put

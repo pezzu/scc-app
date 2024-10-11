@@ -43,3 +43,4 @@ jobs:
                   draft: false
                   prerelease: false
                   artifacts: "public.zip"
+                  generateReleaseNotes: true
